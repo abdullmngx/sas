@@ -30,7 +30,7 @@
                                     <div class="pb-3">
                                         <a href="/">
                                             <span class="logo-lg">
-                                                <img src="/assets/images/logo-sm.svg" alt="" height="24"> <span class="logo-txt">BUK</span>
+                                                <img src="/assets/images/logo.png" alt="" height="24"> <span class="logo-txt">BUK</span>
                                             </span>
                                         </a>
                                         <p class="text-muted font-size-15 w-75 mx-auto mt-3 mb-0">Student Project Supervisor Allocation System.</p>
