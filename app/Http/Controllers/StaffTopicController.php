@@ -10,7 +10,10 @@ class StaffTopicController extends Controller
 {
     public function create(Request $request)
     {
-        $request->validate(['topic' => 'required']);
+        $request->validate([
+            'topic' => 'required',
+            'abstract' => 'required'
+        ]);
 
         $session = $session = Configuration::where('name', 'current_session')->first();
 
@@ -23,6 +26,7 @@ class StaffTopicController extends Controller
 
         StaffTopic::create([
             'topic' => $request->topic,
+            'abstract' => $request->abstract,
             'staff_id' => $staff_id,
             'session_id' => $session->value
         ]);

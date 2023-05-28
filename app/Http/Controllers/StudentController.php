@@ -9,6 +9,7 @@ use App\Models\Programme;
 use App\Models\StaffField;
 use App\Models\StaffTopic;
 use App\Models\Student;
+use App\Models\StudentTopic;
 use App\Models\SupervisorAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ class StudentController extends Controller
             Auth::login($student, $request->remember);
             return redirect()->intended(route('student.dashboard'));
         }
-        
+
         return back()->withErrors(['username' => 'incorrect credentials']);
     }
 
@@ -90,32 +91,41 @@ class StudentController extends Controller
         }
 
         $config = Configuration::where('name', 'students_per_staff')->first();
+        $alloc_conf = Configuration::where('name', 'open_allocation')->first();
         $field_id = auth()->user()->field_id;
         $session_id = $session->value;
         $staffs = StaffField::where('field_id', $field_id)->where('session_id', $session_id)->get();
-        
-        if ($staffs->count() > 0)
-        {
-            foreach($staffs as $staff)
-            {
-                $allocated = SupervisorAssignment::where('staff_id', $staff->staff_id)->where('session_id', $session_id)->count();
-                if ($allocated < $config->value)
-                {
-                    SupervisorAssignment::create([
-                        'student_id' => $student_id,
-                        'staff_id' => $staff->staff_id,
-                        'session_id' => $session_id
-                    ]);
 
-                    return back()->with('success', 'You have been allocated successfully');
+        if ($alloc_conf->value == 'true')
+        {
+            if ($staffs->count() > 0)
+            {
+                foreach($staffs as $staff)
+                {
+                    $allocated = SupervisorAssignment::where('staff_id', $staff->staff_id)->where('session_id', $session_id)->count();
+                    if ($allocated < $config->value)
+                    {
+                        SupervisorAssignment::create([
+                            'student_id' => $student_id,
+                            'staff_id' => $staff->staff_id,
+                            'session_id' => $session_id
+                        ]);
+
+                        return back()->with('success', 'You have been allocated successfully');
+                    }
+                    else
+                    {
+                        return back()->withErrors(['error' => 'No staff found or staff allocation limit exceeded!']);
+                    }
                 }
             }
+            else
+            {
+                return back()->withErrors(['error' => 'Something went wrong please try again later']);
+            }
         }
-        else
-        {
-            return back()->withErrors(['error' => 'Something went wrong please try again later']);
-        }
-        
+
+        return back()->withErrors(['error' => 'Allocation is closed at the moment']);
     }
 
     public function logout()
@@ -143,5 +153,35 @@ class StudentController extends Controller
 
         StaffTopic::where('id', $topic_id)->update(['student_id' => auth()->id()]);
         return back()->with('success', 'Topic has been assigned to you');
+    }
+
+    public function untakeTopic($topic_id)
+    {
+        $session = Configuration::where('name', 'current_session')->first();
+        if (StaffTopic::where('student_id', auth()->id())->where('id', $topic_id)->exists())
+        {
+            StaffTopic::where('id', $topic_id)->update(['student_id' => null]);
+            return back()->with('success', 'Topic has been unassigned!');   
+        }
+        return back()->withErrors(['error' => 'it seems you have not taken this topic or it was taken by someone else']);
+    }
+
+    public function topics()
+    {
+        $session = Configuration::where('name', 'current_session')->first();
+        $topics = StudentTopic::where('student_id', auth()->id())->where('session_id', $session->value)->get();
+        return view('student_topics', ['topics' => $topics]);
+    }
+
+    public function profile()
+    {
+        $fields = Fields::all();
+        return view('student_profile', ['fields' => $fields]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        Student::where('id', auth()->id())->update($request->except('_token'));
+        return back()->with('success', 'Profile Updated');
     }
 }

@@ -20,6 +20,20 @@
 </li>
 
 <li>
+    <a href="/topics">
+        <i class="bx bx-book nav-icon"></i>
+        <span class="menu-item" data-key="t-supervisor">My Topics</span>
+    </a>
+</li>
+
+<li>
+    <a href="/profile">
+        <i class="bx bx-user nav-icon"></i>
+        <span class="menu-item" data-key="t-supervisor">My Profile</span>
+    </a>
+</li>
+
+<li>
     <a href="/logout">
         <i class="bx bx-log-out nav-icon"></i>
         <span class="menu-item" data-key="t-supervisor">Logout</span>

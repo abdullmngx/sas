@@ -12,6 +12,7 @@ class StaffTopic extends Model
 
     protected $fillable = [
         'topic',
+        'abstract',
         'staff_id',
         'session_id',
         'student_id'

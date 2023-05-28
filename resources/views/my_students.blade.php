@@ -16,6 +16,7 @@
                                         <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Field of Interest</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -25,6 +26,11 @@
                                             <td>{{ $student->student->full_name }}</td>
                                             <td>{{ $student->student->email }}</td>
                                             <td>{{ $student->student->field }}</td>
+                                            <td>@if ($student->student->pending_topics > 0)
+                                                <a href="{{ route('staff.student_topics', $student->student->id) }}" class="btn btn-success">View Topics ({{ $student->student->pending_topics }})<strong><span class="text-danger">*</span></strong></a>
+                                            @else
+                                            <a href="{{ route('staff.student_topics', $student->student->id) }}" class="btn btn-success">View Topics</a>   
+                                            @endif</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

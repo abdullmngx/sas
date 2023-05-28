@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff_topics', function (Blueprint $table) {
+        Schema::create('student_topics', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('session_id');
             $table->string('topic');
             $table->longText('abstract');
-            $table->unsignedBigInteger('staff_id');
-            $table->unsignedBigInteger('session_id');
-            $table->unsignedBigInteger('student_id')->nullable();
+            $table->enum('status', ['pending','approved','declined'])->default('pending');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff_topics');
+        Schema::dropIfExists('student_topics');
     }
 };

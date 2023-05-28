@@ -6,6 +6,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffFieldController;
 use App\Http\Controllers\StaffTopicController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentTopicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [StudentController::class, 'login'])->name('student.login');
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/login', [StudentController::class, 'login'])->name('student.login');
 Route::post('/login', [StudentController::class, 'authenticate'])->name('student.authenticate');
 Route::get('/signup', [StudentController::class, 'register'])->name('student.register');
 Route::post('/signup', [StudentController::class, 'create'])->name('student.create');
@@ -30,6 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/allocation', [StudentController::class, 'allocate'])->name('student.allocate');
     Route::get('/supervisor', [StudentController::class, 'supervisor'])->name('student.supervisor');
     Route::get('/topic/take/{topic_id}', [StudentController::class, 'takeTopic'])->name('student.take_topic');
+    Route::get('/topic/untake/{topic_id}', [StudentController::class, 'untakeTopic'])->name('student.untake_topic');
+    Route::get('/topics', [StudentController::class, 'topics'])->name('student.topics');
+    Route::post('/topics', [StudentTopicController::class, 'create'])->name('student.create_topic');
+    Route::get('/profile', [StudentController::class, 'profile'])->name('student.profile');
+    Route::post('/profile', [StudentController::class, 'updateProfile'])->name('student.update_profile');
     Route::get('logout', [StudentController::class, 'logout'])->name('student.logout');
 });
 
@@ -48,6 +57,9 @@ Route::prefix('/staff')->group(function () {
         Route::get('topics', [StaffController::class, 'topics'])->name('staff.topics');
         Route::post('/topics', [StaffTopicController::class, 'create'])->name('staff.create_topic');
         Route::get('/topics/delete/{topic_id}', [StaffTopicController::class, 'delete'])->name('staff.delete_topic');
+        Route::get('/student/topics/{student_id}', [StaffController::class, 'studentTopics'])->name('staff.student_topics');
+        Route::get('/student/topics/approve/{topic_id}', [StudentTopicController::class, 'approve'])->name('staff.approve_student_topic');
+        Route::get('/student/topics/decline/{topic_id}', [StudentTopicController::class, 'decline'])->name('staff.decline_student_topic');
         Route::get('/logout', [StaffController::class, 'logout'])->name('staff.logout');
 
 

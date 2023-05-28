@@ -36,8 +36,7 @@ class Configuration extends Model
                 $data = [];
                 foreach ($seeds as $seed)
                 {
-                    $data['id'] = $seed;
-                    $data['name'] = $seed;
+                    $data[] = ['id' => $seed, 'name' => $seed];
                 }
                 return  $data;
             }
