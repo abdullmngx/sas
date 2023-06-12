@@ -19,6 +19,13 @@
     </a>
 </li>
 
+<li class="{{ request()->routeIs('staff.uploads') ? 'mm-active' : '' }}">
+    <a href="/staff/upload">
+        <i class="bx bx-file nav-icon"></i>
+        <span class="menu-item" data-key="t-supervisor">Upload Project Materials</span>
+    </a>
+</li>
+
 <li class="{{ request()->routeIs('staff.topics') ? 'mm-active' : '' }}">
     <a href="/staff/topics">
         <i class="bx bx-book nav-icon"></i>

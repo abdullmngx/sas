@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\Programme;
 use App\Models\StaffField;
 use App\Models\StaffTopic;
+use App\Models\StaffUpload;
 use App\Models\Student;
 use App\Models\StudentTopic;
 use App\Models\SupervisorAssignment;
@@ -140,7 +141,8 @@ class StudentController extends Controller
         $session = Configuration::where('name', 'current_session')->first();
         $staff_id = auth()->user()->assignment->staff_id ?? 0;
         $topics = StaffTopic::where('staff_id', $staff_id)->where('session_id', $session->value)->get();
-        return view('my_supervisor', ['topics' => $topics]);
+        $uploads = StaffUpload::where('staff_id', $staff_id)->where('session_id', $session->value)->get();
+        return view('my_supervisor', ['topics' => $topics, 'uploads' => $uploads]);
     }
 
     public function takeTopic($topic_id)

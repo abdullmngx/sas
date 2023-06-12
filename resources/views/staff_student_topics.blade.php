@@ -43,6 +43,41 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h4 class="card-title">
+                            Project Uploads
+                        </h4>
+                    </div>
+                    <div class="mb-4">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Name</th>
+                                        <th>file</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($uploads as $upload)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $upload->name }}</td>
+                                            <td><a href="{{ $upload->file }}" download="{{ $upload->name }}">Download file</a></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('modals')

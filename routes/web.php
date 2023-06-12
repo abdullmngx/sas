@@ -5,8 +5,10 @@ use App\Http\Controllers\FieldsController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffFieldController;
 use App\Http\Controllers\StaffTopicController;
+use App\Http\Controllers\StaffUploadController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentTopicController;
+use App\Http\Controllers\StudentUploadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/topics', [StudentTopicController::class, 'create'])->name('student.create_topic');
     Route::get('/profile', [StudentController::class, 'profile'])->name('student.profile');
     Route::post('/profile', [StudentController::class, 'updateProfile'])->name('student.update_profile');
+    Route::get('upload', [StudentUploadController::class, 'upload'])->name('student.uploads');
+    Route::post('upload', [StudentUploadController::class, 'store'])->name('student.store_upload');
     Route::get('logout', [StudentController::class, 'logout'])->name('student.logout');
 });
 
@@ -55,6 +59,8 @@ Route::prefix('/staff')->group(function () {
         Route::get('/fields/unassign/{field_id}', [StaffFieldController::class, 'delete'])->name('staff.assign_field');
         Route::get('my-fields', [StaffController::class, 'myFields'])->name('staff.my_fields');
         Route::get('topics', [StaffController::class, 'topics'])->name('staff.topics');
+        Route::get('upload', [StaffUploadController::class, 'upload'])->name('staff.uploads');
+        Route::post('upload', [StaffUploadController::class, 'store'])->name('staff.store_upload');
         Route::post('/topics', [StaffTopicController::class, 'create'])->name('staff.create_topic');
         Route::get('/topics/delete/{topic_id}', [StaffTopicController::class, 'delete'])->name('staff.delete_topic');
         Route::get('/student/topics/{student_id}', [StaffController::class, 'studentTopics'])->name('staff.student_topics');

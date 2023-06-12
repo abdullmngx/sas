@@ -29,7 +29,7 @@
                                             <td>@if ($student->student->pending_topics > 0)
                                                 <a href="{{ route('staff.student_topics', $student->student->id) }}" class="btn btn-success">View Topics ({{ $student->student->pending_topics }})<strong><span class="text-danger">*</span></strong></a>
                                             @else
-                                            <a href="{{ route('staff.student_topics', $student->student->id) }}" class="btn btn-success">View Topics</a>   
+                                            <a href="{{ route('staff.student_topics', $student->student->id) }}" class="btn btn-success">View</a>   
                                             @endif</td>
                                         </tr>
                                     @endforeach

@@ -9,6 +9,7 @@ use App\Models\StaffField;
 use App\Models\StaffTopic;
 use App\Models\Student;
 use App\Models\StudentTopic;
+use App\Models\StudentUpload;
 use App\Models\SupervisorAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -144,6 +145,7 @@ class StaffController extends Controller
     {
         $session = Configuration::where('name', 'current_session')->first();
         $student_topics = StudentTopic::where('student_id', $student_id)->where('session_id', $session->value)->get();
-        return view('staff_student_topics', ['topics' => $student_topics]);
+        $uploads = StudentUpload::where('student_id', $student_id)->where('session_id', $session->value)->get();
+        return view('staff_student_topics', ['topics' => $student_topics, 'uploads' => $uploads]);
     }
 }

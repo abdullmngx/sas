@@ -27,6 +27,13 @@
 </li>
 
 <li>
+    <a href="/upload">
+        <i class="bx bx-file nav-icon"></i>
+        <span class="menu-item" data-key="t-supervisor">Upload my project</span>
+    </a>
+</li>
+
+<li>
     <a href="/profile">
         <i class="bx bx-user nav-icon"></i>
         <span class="menu-item" data-key="t-supervisor">My Profile</span>
